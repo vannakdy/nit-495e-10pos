@@ -1,0 +1,8 @@
+> npm install react-router-dom 
+> npm install antd --save // UI component 
+> npm install @ant-design/icons --save
+
+> npm install react-icons --save
+> npm install axios 
+
+> tailwind css // css framework like bootstap 

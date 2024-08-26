@@ -1,0 +1,13 @@
+create repo nit#495e@10pos
+
+echo "# nit-495e-10pos" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/vannakdy/nit-495e-10pos.git
+git push -u origin main
+
+git remote add origin https://github.com/vannakdy/nit-495e-10pos.git
+git branch -M main
+git push -u origin main

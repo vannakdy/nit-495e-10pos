@@ -1,0 +1,47 @@
+Project POS System and Advance
+ReacJS + (Node Express MySQL : Build Api)
+
+* Computer & Phone Shop *
+- User 
+- User Role In System
+- User Permission Module In System 
+- Employee 
+- Employee payroll
+- Customer 
+- Customer Address
+- Customer Member
+- Category 
+- Product 
+- Product Image
+- Product Description 
+- Product Discount
+- Purchase 
+- Purchase Items
+- Supplier 
+- Stock
+- Sale (POS) : 
+- Order 
+- Order Items 
+- Customer Order 
+- Customer Payment
+- Expenses
+- Expenses Type
++ More Option
+    - Online Order
+    - Deliver
+    - Delivery Route 
+    - Delivery Product
+...
+- Report 
+    - Sale By Customer
+    - Sale By Category
+    - Top Sale 
+    - Sale By Days/Months/Year
+        - Today,Yesterday, Last 7Days, This Months, Last Months
+        - Or filter By Period 
+    - Sale By User 
+    - Payroll By Months 
+    - Payroll By Employee
+    - Purchase Report
+    - Stock ...
+    - Export Pdf, Excel

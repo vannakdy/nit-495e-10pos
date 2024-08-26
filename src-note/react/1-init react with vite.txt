@@ -1,0 +1,8 @@
+> npm create vite@latest
+    - choose projectname 
+    - choose framework react
+    - javascript 
+cd web-pos-nit
+npm install   
+npm run dev
+
