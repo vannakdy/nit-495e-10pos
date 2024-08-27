@@ -1,0 +1,53 @@
+.admin-header {
+  background-color: rgb(209, 252, 252);
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  align-items: center;
+}
+
+.admin-body {
+  padding: 16px;
+  height: calc(100vh - 90px);
+}
+
+.admin-header-g1 {
+  display: flex;
+}
+
+.admin-header-g2 {
+  display: flex;
+  align-items: center;
+}
+
+.txt-brand-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.txt-username {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.admin-logo {
+  width: 60px;
+  margin-right: 10px;
+  border-radius: 30px;
+}
+
+.img-user {
+  width: 60px;
+  margin-left: 10px;
+  border-radius: 30px;
+}
+
+.icon-notify {
+  font-size: 34px;
+  margin-right: 15px;
+}
+.icon-email {
+  font-size: 34px;
+  margin-right: 15px;
+}

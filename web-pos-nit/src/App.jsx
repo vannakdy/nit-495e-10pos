@@ -12,6 +12,9 @@ import RegisterPage from "./page/auth/RegisterPage";
 
 import MainLayout from "./component/layout/MainLayout";
 import MainLayoutAuth from "./component/layout/MainLayoutAuth";
+import EmployeePage from "./page/employee/EmployeePage";
+import CustomerPage from "./page/customer/CustomerPage";
+import CategoryPage from "./page/category/CategoryPage";
 
 function App() {
   return (
@@ -19,8 +22,9 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/category" element={<LogingPage />} />
-          <Route path="/product" element={<RegisterPage />} />
+          <Route path="/employee" element={<EmployeePage />} />
+          <Route path="/customer" element={<CustomerPage />} />
+          <Route path="/product/category" element={<CategoryPage />} />
           <Route path="*" element={<h1>404-Route Not Found!</h1>} />
         </Route>
 

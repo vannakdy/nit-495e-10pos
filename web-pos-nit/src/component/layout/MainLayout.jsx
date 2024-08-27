@@ -6,36 +6,73 @@ import {
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Outlet } from "react-router-dom";
+import { Breadcrumb, Input, Layout, Menu, theme } from "antd";
+import { Outlet, useNavigate } from "react-router-dom";
+import "./MainLayout.css";
+import Logo from "../../assets/INT_LOGO.png";
+import ImgUser from "../../assets/user-mage.jpg";
+import { IoIosNotifications } from "react-icons/io";
+import { MdOutlineMarkEmailUnread } from "react-icons/md";
+
 const { Header, Content, Footer, Sider } = Layout;
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
+
 const items = [
-  getItem("Option 1", "1", <PieChartOutlined />),
-  getItem("Option 2", "2", <DesktopOutlined />),
-  getItem("User", "sub1", <UserOutlined />, [
-    getItem("Tom", "3"),
-    getItem("Bill", "4"),
-    getItem("Alex", "5"),
-  ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  getItem("Files", "9", <FileOutlined />),
+  {
+    key: "",
+    label: "Dashabord",
+    icon: <PieChartOutlined />,
+    children: null,
+  },
+  {
+    key: "employee",
+    label: "Employe",
+    icon: <PieChartOutlined />,
+    children: null,
+  },
+  {
+    key: "customer",
+    label: "Customer",
+    icon: <PieChartOutlined />,
+    children: null,
+  },
+  {
+    key: "product",
+    label: "Product",
+    icon: <PieChartOutlined />,
+    children: [
+      {
+        key: "product/category",
+        label: "Category",
+        icon: <PieChartOutlined />,
+        children: null,
+      },
+      {
+        key: "product/category1",
+        label: "Stock",
+        icon: <PieChartOutlined />,
+        children: null,
+      },
+      {
+        key: "product/category1",
+        label: "Stock1",
+        icon: <PieChartOutlined />,
+        children: null,
+      },
+    ],
+  },
 ];
+
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const navigate = useNavigate();
+
+  const onClickMenu = (item) => {
+    navigate(item.key);
+  };
+
   return (
     <Layout
       style={{
@@ -53,19 +90,45 @@ const MainLayout = () => {
           defaultSelectedKeys={["1"]}
           mode="inline"
           items={items}
+          onClick={onClickMenu}
         />
       </Sider>
       <Layout>
-        <div style={{ height: 80, background: "gray" }}></div>
+        <div className="admin-header">
+          <div className="admin-header-g1">
+            <div>
+              <img className="admin-logo" src={Logo} alt="Logo" />
+            </div>
+            <div>
+              <div className="txt-brand-name">POS-NIT</div>
+              <div>Computer & Phone Shop</div>
+            </div>
+            <div>
+              <Input.Search
+                style={{ width: 180, marginLeft: 15, marginTop: 10 }}
+                size="large"
+                placeholder="Search"
+              />
+            </div>
+          </div>
+          <div className="admin-header-g2">
+            <IoIosNotifications className="icon-notify" />
+            <MdOutlineMarkEmailUnread className="icon-email" />
+            <div>
+              <div className="txt-username">Sok Dara</div>
+              <div>Admin</div>
+            </div>
+            <img className="img-user" src={ImgUser} alt="Logo" />
+          </div>
+        </div>
         <Content
           style={{
-            margin: "0 16px",
+            margin: "10px",
           }}
         >
           <div
+            className="admin-body"
             style={{
-              padding: 24,
-              minHeight: 360,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}

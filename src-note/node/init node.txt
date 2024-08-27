@@ -2,3 +2,5 @@
 > npm insall express 
 
 + create index.js // root project 
+
+> npm install cors
