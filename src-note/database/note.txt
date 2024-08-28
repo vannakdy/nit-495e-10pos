@@ -1,0 +1,4 @@
+
+
+create new db : pos-nit
+category 
