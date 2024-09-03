@@ -1,0 +1,17 @@
+
++ register 
+    - api/auth/register, post 
+    - body = {
+        "role_id" : "",
+        "name" : "",
+        "username" : "",
+        "password" : "",
+        "is_active" : "",
+        "create_by" : ""
+    }
++ login
+    - api/auth/login, post 
+    - body = {
+        "username" : "",
+        "password" : ""
+    }
