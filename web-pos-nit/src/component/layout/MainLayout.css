@@ -9,7 +9,8 @@
 
 .admin-body {
   padding: 16px;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 110px);
+  overflow-y: scroll;
 }
 
 .admin-header-g1 {

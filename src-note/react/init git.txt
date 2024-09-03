@@ -14,3 +14,10 @@ git add .
 git commit -m "first commit"
 git push -u origin main
 
+- git clone 
+- git push
+- git pull
+- git branch
+- git fetch
+- git merge
+

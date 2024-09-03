@@ -4,7 +4,7 @@
 // import { Button } from "antd";
 // import { DeleteFilled } from "@ant-design/icons";
 // import { MdDelete } from "react-icons/md";
-// import "./App.css";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./page/home/HomePage";
 import LogingPage from "./page/auth/LogingPage";

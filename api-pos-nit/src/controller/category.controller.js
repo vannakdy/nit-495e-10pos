@@ -2,7 +2,7 @@ const { db, isArray, isEmpty, logError } = require("../util/helper");
 
 exports.getList = async (req, res) => {
   try {
-    const [list] = await db.query("SELECT * FROM category");
+    const [list] = await db.query("SELECT * FROM category ORDER BY Id DESC");
     res.json({
       list: list,
     });
@@ -23,20 +23,44 @@ exports.create = async (req, res) => {
     });
     res.json({
       data: data,
+      message: "Insert success!",
     });
   } catch (error) {
     logError("category.create", error, res);
   }
 };
 
-exports.update = (req, res) => {
-  res.json({
-    data: [3],
-  });
+exports.update = async (req, res) => {
+  try {
+    var [data] = await db.query(
+      "UPDATE category SET Name=:Name, Description=:Description, Status=:Status, ParentId=:ParentId WHERE Id = :Id",
+      {
+        Id: req.body.Id,
+        Name: req.body.Name, // null
+        Description: req.body.Description,
+        Status: req.body.Status,
+        ParentId: req.body.ParentId,
+      }
+    );
+    res.json({
+      data: data,
+      message: "Data update success!",
+    });
+  } catch (error) {
+    logError("update.create", error, res);
+  }
 };
 
-exports.remove = (req, res) => {
-  res.json({
-    data: [4],
-  });
+exports.remove = async (req, res) => {
+  try {
+    var [data] = await db.query("DELETE FROM category WHERE Id = :Id", {
+      Id: req.body.Id, // null
+    });
+    res.json({
+      data: data,
+      message: "Data delete success!",
+    });
+  } catch (error) {
+    logError("remove.create", error, res);
+  }
 };
