@@ -1,5 +1,7 @@
 const { logError, db } = require("../util/helper");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const config = require("../util/config");
 exports.register = async (req, res) => {
   try {
     // hash password
@@ -53,9 +55,15 @@ exports.login = async (req, res) => {
           },
         });
       } else {
+        delete data[0].password;
+        let obj = {
+          profile: data[0],
+          permision: ["view_all", "delete", "edit"],
+        };
         res.json({
           message: "Login success",
-          profile: data[0],
+          ...obj,
+          access_token: await getAccessToken(obj),
         });
       }
     }
@@ -64,9 +72,58 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.profile = (req, res) => {
+exports.profile = async (req, res) => {
   try {
+    res.json({
+      profile: req.profile,
+    });
   } catch (error) {
     logError("auth.register", error, res);
   }
+};
+
+exports.validate_token = () => {
+  // call in midleware in route (role route, user route, teacher route)
+  return (req, res, next) => {
+    var authorization = req.headers.authorization; // token from client
+    var token_from_client = null;
+    if (authorization != null && authorization != "") {
+      token_from_client = authorization.split(" "); // authorization : "Bearer lkjsljrl;kjsiejr;lqjl;ksjdfakljs;ljl;r"
+      token_from_client = token_from_client[1]; // get only access_token
+    }
+    if (token_from_client == null) {
+      res.status(401).send({
+        message: "Unauthorized",
+      });
+    } else {
+      jwt.verify(
+        token_from_client,
+        config.config.token.access_token_key,
+        (error, result) => {
+          if (error) {
+            res.status(401).send({
+              message: "Unauthorized",
+              error: error,
+            });
+          } else {
+            req.current_id = result.data.profile.id;
+            req.profile = result.data.profile; // write user property
+            req.permision = result.data.permision; // write user property
+            next(); // continue controller
+          }
+        }
+      );
+    }
+  };
+};
+
+const getAccessToken = async (paramData) => {
+  const acess_token = await jwt.sign(
+    { data: paramData },
+    config.config.token.access_token_key,
+    {
+      expiresIn: "180s",
+    }
+  );
+  return acess_token;
 };

@@ -1,3 +1,4 @@
+const { validate_token } = require("../controller/auth.controller");
 const {
   getList,
   create,
@@ -6,8 +7,10 @@ const {
 } = require("../controller/category.controller");
 
 module.exports = (app) => {
-  app.get("/api/category", getList);
-  app.post("/api/category", create);
+  app.get("/api/category", validate_token(), getList);
+  app.post("/api/category", validate_token(), create);
   app.put("/api/category", update);
   app.delete("/api/category", remove);
 };
+
+// abc.com/api/category mo

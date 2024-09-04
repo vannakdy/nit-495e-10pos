@@ -10,5 +10,9 @@ module.exports = {
       DATABASE: "pos-nit",
       PORT: 6306,
     },
+    token: {
+      access_token_key:
+        "#$*%*(*234898ireiuLJEROI#@)(#)$*@#)*$(@948858839798283838jaflke",
+    },
   },
 };
