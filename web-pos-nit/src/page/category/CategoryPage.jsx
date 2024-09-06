@@ -12,9 +12,11 @@ import {
 } from "antd";
 import { request } from "../../util/helper";
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
+import MainPage from "../../component/layout/MainPage";
 function CategoryPage() {
   const [formRef] = Form.useForm();
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState({
     visibleModal: false,
     id: null,
@@ -28,7 +30,9 @@ function CategoryPage() {
     getList();
   }, []);
   const getList = async () => {
-    const res = await request("category", "get");
+    setLoading(true);
+    const res = await request("categorysss", "get");
+    setLoading(false);
     if (res) {
       setList(res.list);
     }
@@ -103,7 +107,7 @@ function CategoryPage() {
   };
 
   return (
-    <div>
+    <MainPage loading={loading}>
       <Button type="primary" icon={<MdAdd />} onClick={onClickAddBtn}>
         New
       </Button>
@@ -195,7 +199,7 @@ function CategoryPage() {
           },
         ]}
       />
-    </div>
+    </MainPage>
   );
 }
 

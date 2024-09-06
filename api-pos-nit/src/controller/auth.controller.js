@@ -122,7 +122,7 @@ const getAccessToken = async (paramData) => {
     { data: paramData },
     config.config.token.access_token_key,
     {
-      expiresIn: "180s",
+      expiresIn: "1d",
     }
   );
   return acess_token;
