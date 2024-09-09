@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DesktopOutlined,
   FileOutlined,
@@ -13,6 +13,11 @@ import Logo from "../../assets/INT_LOGO.png";
 import ImgUser from "../../assets/user-mage.jpg";
 import { IoIosNotifications } from "react-icons/io";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
+import {
+  getProfile,
+  setAcccessToken,
+  setProfile,
+} from "../../store/profile.store";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -63,15 +68,31 @@ const items = [
 ];
 
 const MainLayout = () => {
+  const profile = getProfile();
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!profile) {
+      navigate("/login");
+    }
+  }, []);
+
   const onClickMenu = (item) => {
     navigate(item.key);
   };
+  const onLoginOut = () => {
+    setProfile("");
+    setAcccessToken("");
+    navigate("/login");
+  };
+
+  if (!profile) {
+    return null;
+  }
 
   return (
     <Layout
@@ -114,9 +135,10 @@ const MainLayout = () => {
           <div className="admin-header-g2">
             <IoIosNotifications className="icon-notify" />
             <MdOutlineMarkEmailUnread className="icon-email" />
+            <div>{profile && <button onClick={onLoginOut}>Logout</button>}</div>
             <div>
-              <div className="txt-username">Sok Dara</div>
-              <div>Admin</div>
+              <div className="txt-username">{profile?.name}</div>
+              <div>{profile?.role_id}</div>
             </div>
             <img className="img-user" src={ImgUser} alt="Logo" />
           </div>

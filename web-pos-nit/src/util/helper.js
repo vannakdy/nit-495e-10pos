@@ -1,13 +1,17 @@
 import axios from "axios";
 import { Config } from "./config";
 import { setServerSatus } from "../store/server.store";
+import { getAcccessToken } from "../store/profile.store";
 
 export const request = (url = "", method = "get", data = {}) => {
+  var access_token = getAcccessToken();
   return axios({
     url: Config.base_url + url,
     method: method,
     data: data,
-    headers: {},
+    headers: {
+      Authorization: "Bearer " + access_token,
+    },
   })
     .then((res) => {
       setServerSatus(200);

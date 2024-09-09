@@ -31,7 +31,7 @@ function CategoryPage() {
   }, []);
   const getList = async () => {
     setLoading(true);
-    const res = await request("categorysss", "get");
+    const res = await request("category", "get");
     setLoading(false);
     if (res) {
       setList(res.list);
