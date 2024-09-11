@@ -35,7 +35,15 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     let { password, username } = req.body;
-    let sql = "SELECT * FROM user WHERE username=:username ";
+    // let sql = "SELECT * FROM user WHERE username=:username ";
+    let sql =
+      "SELECT " +
+      " u.*," +
+      " r.name as role_name" +
+      " FROM user u " +
+      " INNER JOIN role r ON u.role_id = r.id " +
+      " WHERE u.username=:username ";
+
     let [data] = await db.query(sql, {
       username: username,
     });
@@ -120,10 +128,13 @@ exports.validate_token = () => {
 const getAccessToken = async (paramData) => {
   const acess_token = await jwt.sign(
     { data: paramData },
-    config.config.token.access_token_key,
-    {
-      expiresIn: "1d",
-    }
+    config.config.token.access_token_key
+    // {
+    //   expiresIn: "1d",
+    // }
   );
   return acess_token;
 };
+
+// getpermission menu
+// getpermission role

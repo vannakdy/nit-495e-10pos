@@ -3,10 +3,11 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
+  SmileOutlined,
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Input, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Button, Dropdown, Input, Layout, Menu, theme } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import "./MainLayout.css";
 import Logo from "../../assets/INT_LOGO.png";
@@ -25,42 +26,127 @@ const items = [
   {
     key: "",
     label: "Dashabord",
-    icon: <PieChartOutlined />,
     children: null,
   },
   {
-    key: "employee",
-    label: "Employe",
-    icon: <PieChartOutlined />,
+    key: "pos",
+    label: "POS",
     children: null,
   },
   {
     key: "customer",
     label: "Customer",
-    icon: <PieChartOutlined />,
+    children: null,
+  },
+  {
+    key: "order",
+    label: "Order",
     children: null,
   },
   {
     key: "product",
     label: "Product",
-    icon: <PieChartOutlined />,
     children: [
       {
-        key: "product/category",
+        key: "product",
+        label: "List Porduct",
+        children: null,
+      },
+      {
+        key: "category",
         label: "Category",
-        icon: <PieChartOutlined />,
+        children: null,
+      },
+    ],
+  },
+  {
+    key: "purchase",
+    label: "Purchase",
+    children: [
+      {
+        key: "supplier",
+        label: "Supplier",
         children: null,
       },
       {
-        key: "product/category1",
-        label: "Stock",
-        icon: <PieChartOutlined />,
+        key: "purchase",
+        label: "List purchase",
         children: null,
       },
       {
-        key: "product/category1",
-        label: "Stock1",
-        icon: <PieChartOutlined />,
+        key: "purchase_product",
+        label: "Purchase Product",
+        children: null,
+      },
+    ],
+  },
+  {
+    key: "expanse",
+    label: "Expanse",
+    children: [
+      {
+        key: "expanse_type",
+        label: "Expanse Type",
+        children: null,
+      },
+      {
+        key: "expanse",
+        label: "Expanse",
+        children: null,
+      },
+    ],
+  },
+  {
+    key: "employee",
+    label: "Employee",
+    children: [
+      {
+        key: "employee",
+        label: "Employee",
+        children: null,
+      },
+      {
+        key: "payroll",
+        label: "Payroll",
+        children: null,
+      },
+    ],
+  },
+
+  {
+    key: "user",
+    label: "User",
+    children: [
+      {
+        key: "user",
+        label: "User",
+        children: null,
+      },
+      {
+        key: "role",
+        label: "Role",
+        children: null,
+      },
+      {
+        key: "role_permission",
+        label: "Role Permmission",
+        children: null,
+      },
+    ],
+  },
+
+  {
+    key: "Setting",
+    label: "Setting",
+    children: [
+      {
+        key: "Currency",
+        label: "Currency",
+        children: null,
+      },
+      {
+        key: "langauge",
+        label: "Langauge",
         children: null,
       },
     ],
@@ -93,6 +179,32 @@ const MainLayout = () => {
   if (!profile) {
     return null;
   }
+
+  const itemsDropdown = [
+    {
+      key: "1",
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="/">
+          profile
+        </a>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="/">
+          chage password
+        </a>
+      ),
+      icon: <SmileOutlined />,
+      disabled: true,
+    },
+    {
+      key: "logout",
+      danger: true,
+      label: "Logout",
+    },
+  ];
 
   return (
     <Layout
@@ -135,12 +247,22 @@ const MainLayout = () => {
           <div className="admin-header-g2">
             <IoIosNotifications className="icon-notify" />
             <MdOutlineMarkEmailUnread className="icon-email" />
-            <div>{profile && <button onClick={onLoginOut}>Logout</button>}</div>
             <div>
               <div className="txt-username">{profile?.name}</div>
-              <div>{profile?.role_id}</div>
+              <div>{profile?.role_name}</div>
             </div>
-            <img className="img-user" src={ImgUser} alt="Logo" />
+            <Dropdown
+              menu={{
+                items: itemsDropdown,
+                onClick: (event) => {
+                  if (event.key == "logout") {
+                    onLoginOut();
+                  }
+                },
+              }}
+            >
+              <img className="img-user" src={ImgUser} alt="Logo" />
+            </Dropdown>
           </div>
         </div>
         <Content
