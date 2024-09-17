@@ -2,6 +2,27 @@ const { logError, db } = require("../util/helper");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../util/config");
+
+exports.getList = async (req, res) => {
+  try {
+    let sql =
+      " SELECT  " +
+      " u.id, " +
+      " u.name, " +
+      " u.username, " +
+      " u.is_active, " +
+      " r.name AS role_name " +
+      " FROM user u " +
+      " INNER JOIN role r ON u.role_id = r.id ";
+    const [list] = await db.query(sql);
+    res.json({
+      list,
+    });
+  } catch (error) {
+    logError("auth.getList", error, res);
+  }
+};
+
 exports.register = async (req, res) => {
   try {
     // hash password

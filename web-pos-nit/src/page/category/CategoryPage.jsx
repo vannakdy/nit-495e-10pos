@@ -13,6 +13,7 @@ import {
 import { request } from "../../util/helper";
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
 import MainPage from "../../component/layout/MainPage";
+
 function CategoryPage() {
   const [formRef] = Form.useForm();
   const [list, setList] = useState([]);
@@ -29,6 +30,7 @@ function CategoryPage() {
   useEffect(() => {
     getList();
   }, []);
+
   const getList = async () => {
     setLoading(true);
     const res = await request("category", "get");

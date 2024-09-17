@@ -19,6 +19,7 @@ import {
   setAcccessToken,
   setProfile,
 } from "../../store/profile.store";
+import { countStore } from "../../page/home/HomePage";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -154,6 +155,7 @@ const items = [
 ];
 
 const MainLayout = () => {
+  const { count, increase, descrease } = countStore();
   const profile = getProfile();
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -234,6 +236,8 @@ const MainLayout = () => {
             </div>
             <div>
               <div className="txt-brand-name">POS-NIT</div>
+              <div className="txt-brand-name">Count : {count}</div>
+
               <div>Computer & Phone Shop</div>
             </div>
             <div>

@@ -26,5 +26,7 @@ CREATE TABLE user (
 ALTER TABLE user
 ADD FOREIGN KEY (role_id) REFERENCES role(id);
 
+u.(role_id) = r.(id);
+
 -- Assign 
 -- role(1) - user(M) // 1-M, M-1
