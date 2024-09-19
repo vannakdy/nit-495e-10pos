@@ -236,7 +236,7 @@ const MainLayout = () => {
             </div>
             <div>
               <div className="txt-brand-name">POS-NIT</div>
-              <div className="txt-brand-name">Count : {count}</div>
+              {/* <div className="txt-brand-name">Count : {count}</div> */}
 
               <div>Computer & Phone Shop</div>
             </div>

@@ -10,13 +10,18 @@ exports.getList = async (req, res) => {
       " u.id, " +
       " u.name, " +
       " u.username, " +
+      " u.create_by, " +
       " u.is_active, " +
       " r.name AS role_name " +
       " FROM user u " +
       " INNER JOIN role r ON u.role_id = r.id ";
     const [list] = await db.query(sql);
+    const [role] = await db.query(
+      "SELECT id as value, name as label FROM role"
+    );
     res.json({
       list,
+      role,
     });
   } catch (error) {
     logError("auth.getList", error, res);
@@ -38,10 +43,8 @@ exports.register = async (req, res) => {
       username: req.body.username,
       password: password,
       is_active: req.body.is_active,
-      create_by: req.body.create_by,
+      create_by: req.auth?.name, // current user that action this module
     });
-    // "affectedRows": 1,
-    // "insertId": 1,
     res.json({
       message: "Create new account success!",
       data: data,
@@ -136,7 +139,7 @@ exports.validate_token = () => {
             });
           } else {
             req.current_id = result.data.profile.id;
-            req.profile = result.data.profile; // write user property
+            req.auth = result.data.profile; // write user property
             req.permision = result.data.permision; // write user property
             next(); // continue controller
           }

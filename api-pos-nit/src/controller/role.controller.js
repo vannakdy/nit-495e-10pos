@@ -8,39 +8,35 @@ exports.getList = async (req, res) => {
       list: list,
     });
   } catch (error) {
-    logError("category.getList", error, res);
+    logError("log.getList", error, res);
   }
 };
 
 exports.create = async (req, res) => {
+  // validate
   try {
-    var sql =
-      "INSERT INTO category (Name,Description,Status,ParentId) VALUES (:Name,:Description,:Status,:ParentId) ";
+    var sql = "INSERT INTO role (name,code) VALUES (:name,:code) ";
     var [data] = await db.query(sql, {
-      Name: req.body.Name, // null
-      Description: req.body.Description,
-      Status: req.body.Status,
-      ParentId: req.body.ParentId,
+      name: req.body.name, // null
+      code: req.body.code,
     });
     res.json({
       data: data,
       message: "Insert success!",
     });
   } catch (error) {
-    logError("category.create", error, res);
+    logError("role.create", error, res);
   }
 };
 
 exports.update = async (req, res) => {
   try {
     var [data] = await db.query(
-      "UPDATE category SET Name=:Name, Description=:Description, Status=:Status, ParentId=:ParentId WHERE Id = :Id",
+      "UPDATE role SET name=:name, code=:code WHERE id = :id",
       {
-        Id: req.body.Id,
-        Name: req.body.Name, // null
-        Description: req.body.Description,
-        Status: req.body.Status,
-        ParentId: req.body.ParentId,
+        id: req.body.id,
+        name: req.body.name,
+        code: req.body.code, // null
       }
     );
     res.json({
@@ -48,20 +44,20 @@ exports.update = async (req, res) => {
       message: "Data update success!",
     });
   } catch (error) {
-    logError("update.create", error, res);
+    logError("role.update", error, res);
   }
 };
 
 exports.remove = async (req, res) => {
   try {
-    var [data] = await db.query("DELETE FROM category WHERE Id = :Id", {
-      Id: req.body.Id, // null
+    var [data] = await db.query("DELETE FROM role WHERE id = :id", {
+      id: req.body.id,
     });
     res.json({
       data: data,
       message: "Data delete success!",
     });
   } catch (error) {
-    logError("remove.create", error, res);
+    logError("role.remove", error, res);
   }
 };
