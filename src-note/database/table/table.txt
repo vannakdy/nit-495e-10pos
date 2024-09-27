@@ -1,0 +1,98 @@
+user 
+    id
+    role_id
+    name
+    username
+    password
+    is_active
+    create_by
+    create_at
+role
+    id
+    name
+    code
+category
+    Id
+    Name
+    Description
+    Status
+    CreateAt
+product 
+    id 
+    category_id (FK)
+    brand ()
+    name 
+    desctiption
+    qty
+    price 
+    discount 
+    status 
+    image
+    create_at 
+    create_by 
+
+product_image
+    id 
+    product_id (FK)
+    image 
+
+supplier
+    id 
+    name
+    code 
+    address
+    email 
+    tel
+    website 
+    create_at
+    create_by 
+
+purchase 
+    id
+    supplier_id(FK)
+    ref
+    status (pending,approved,shipp,arrived,issues)
+    shipp_cost
+    paid 
+    paid_date
+    create_at
+    create_by
+
+purchase_product
+    id 
+    purchase_id(FK)
+    product_id(FK)
+    qty  10
+    cost 10$
+    retail_price 15$
+    status (received) : push to system for sale 
+    remark
+
+customer
+    id 
+    name 
+    tel 
+    address 
+    type
+    create_at
+    create_by
+
+order
+    id 
+    order_no
+    customer_id (FK)
+    user_id (FK)
+    status 
+    paid
+    payment_method
+    create_at
+    create_by
+
+order_detail
+    id 
+    order_id 
+    proudct_id 
+    qty 
+    price 
+    discount 
+    total
