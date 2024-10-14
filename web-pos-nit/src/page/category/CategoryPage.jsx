@@ -25,6 +25,7 @@ function CategoryPage() {
     descriptoin: "",
     status: "",
     parentId: null,
+    txtSearch: "",
   });
 
   useEffect(() => {
@@ -32,6 +33,8 @@ function CategoryPage() {
   }, []);
 
   const getList = async () => {
+    const res_config = await request("config", "get");
+    console.log(res_config);
     setLoading(true);
     const res = await request("category", "get");
     setLoading(false);
@@ -45,13 +48,13 @@ function CategoryPage() {
       visibleModal: true,
     });
     formRef.setFieldsValue({
-      Id: data.Id, // hiden id (save? | update?)
-      Name: data.Name,
-      Description: data.Description,
-      Status: data.Status,
+      id: data.id, // hiden id (save? | update?)
+      name: data.name,
+      description: data.description,
+      status: data.status,
     });
     //
-    // formRef.getFieldValue("Id")
+    // formRef.getFieldValue("id")
   };
   const onClickDelete = async (data, index) => {
     Modal.confirm({
@@ -60,13 +63,13 @@ function CategoryPage() {
       okText: "យល់ព្រម",
       onOk: async () => {
         const res = await request("category", "delete", {
-          Id: data.Id,
+          id: data.id,
         });
         if (res && !res.error) {
           // getList(); // request to api response
           // remove in local
           message.success(res.message);
-          const newList = list.filter((item) => item.Id != data.Id);
+          const newList = list.filter((item) => item.id != data.id);
           setList(newList);
         }
       },
@@ -89,14 +92,14 @@ function CategoryPage() {
 
   const onFinish = async (items) => {
     var data = {
-      Id: formRef.getFieldValue("Id"),
-      Name: items.Name,
-      Description: items.Description,
-      Status: items.Status,
-      ParentId: 1,
+      id: formRef.getFieldValue("id"),
+      name: items.name,
+      description: items.description,
+      status: items.status,
+      parent_id: 0,
     };
     var method = "post";
-    if (formRef.getFieldValue("Id")) {
+    if (formRef.getFieldValue("id")) {
       // case update
       method = "put";
     }
@@ -110,25 +113,38 @@ function CategoryPage() {
 
   return (
     <MainPage loading={loading}>
-      <Button type="primary" icon={<MdAdd />} onClick={onClickAddBtn}>
-        New
-      </Button>
+      <div className="pageHeader">
+        <Space>
+          <div>Category</div>
+          <Input.Search
+            onChange={(value) =>
+              setState((p) => ({ ...p, txtSearch: value.target.value }))
+            }
+            allowClear
+            onSearch={getList}
+            placeholder="Search"
+          />
+        </Space>
+        <Button type="primary" onClick={onClickAddBtn}>
+          NEW
+        </Button>
+      </div>
       <Modal
         open={state.visibleModal}
-        title={formRef.getFieldValue("Id") ? "Edit Category" : "New Category"}
+        title={formRef.getFieldValue("id") ? "Edit Category" : "New Category"}
         footer={null}
         onCancel={onCloseModal}
       >
         <Form layout="vertical" onFinish={onFinish} form={formRef}>
-          <Form.Item name={"Name"} label="Category Name">
-            <Input placeholder="Input Category Name" />
+          <Form.Item name={"name"} label="Category name">
+            <Input placeholder="Input Category name" />
           </Form.Item>
-          <Form.Item name={"Description"} label="Description">
-            <Input.TextArea placeholder="Description" />
+          <Form.Item name={"description"} label="description">
+            <Input.TextArea placeholder="description" />
           </Form.Item>
-          <Form.Item name={"Status"} label="Status">
+          <Form.Item name={"status"} label="status">
             <Select
-              placeholder="Select Status"
+              placeholder="Select status"
               options={[
                 {
                   label: "Active",
@@ -145,7 +161,7 @@ function CategoryPage() {
           <Space>
             <Button>Cancel</Button>
             <Button type="primary" htmlType="submit">
-              {formRef.getFieldValue("Id") ? "Update" : "Save"}
+              {formRef.getFieldValue("id") ? "Update" : "Save"}
             </Button>
           </Space>
         </Form>
@@ -159,21 +175,21 @@ function CategoryPage() {
             render: (item, data, index) => index + 1,
           },
           {
-            key: "Name",
-            title: "Name",
-            dataIndex: "Name",
+            key: "name",
+            title: "name",
+            dataIndex: "name",
           },
           {
-            key: "Description",
-            title: "Description",
-            dataIndex: "Description",
+            key: "description",
+            title: "description",
+            dataIndex: "description",
           },
           {
-            key: "Status",
-            title: "Status",
-            dataIndex: "Status",
-            render: (Status) =>
-              Status == 1 ? (
+            key: "status",
+            title: "status",
+            dataIndex: "status",
+            render: (status) =>
+              status == 1 ? (
                 <Tag color="green">Active</Tag>
               ) : (
                 <Tag color="red">InActive</Tag>

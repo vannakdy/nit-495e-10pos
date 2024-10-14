@@ -17,6 +17,7 @@ import CustomerPage from "./page/customer/CustomerPage";
 import CategoryPage from "./page/category/CategoryPage";
 import UserPage from "./page/user/UserPage";
 import RolePage from "./page/role/RolePage";
+import SupplierPage from "./page/purchase/SupplierPage";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
           <Route path="/category" element={<CategoryPage />} />
           <Route path="/user" element={<UserPage />} />
           <Route path="/role" element={<RolePage />} />
+          <Route path="/supplier" element={<SupplierPage />} />
+
           <Route path="*" element={<h1>404-Route Not Found!</h1>} />
         </Route>
 

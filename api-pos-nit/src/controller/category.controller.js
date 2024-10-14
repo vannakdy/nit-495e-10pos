@@ -2,7 +2,7 @@ const { db, isArray, isEmpty, logError } = require("../util/helper");
 
 exports.getList = async (req, res) => {
   try {
-    const [list] = await db.query("SELECT * FROM category ORDER BY Id DESC");
+    const [list] = await db.query("SELECT * FROM category ORDER BY id DESC");
     res.json({
       i_know_you_are_id: req.current_id,
       list: list,
@@ -15,12 +15,12 @@ exports.getList = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     var sql =
-      "INSERT INTO category (Name,Description,Status,ParentId) VALUES (:Name,:Description,:Status,:ParentId) ";
+      "INSERT INTO category (name,description,status,parent_id) VALUES (:name,:description,:status,:parent_id) ";
     var [data] = await db.query(sql, {
-      Name: req.body.Name, // null
-      Description: req.body.Description,
-      Status: req.body.Status,
-      ParentId: req.body.ParentId,
+      name: req.body.name, // null
+      description: req.body.description,
+      status: req.body.status,
+      parent_id: req.body.parent_id,
     });
     res.json({
       data: data,
@@ -34,13 +34,13 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     var [data] = await db.query(
-      "UPDATE category SET Name=:Name, Description=:Description, Status=:Status, ParentId=:ParentId WHERE Id = :Id",
+      "UPDATE category SET name=:name, description=:description, status=:status, parent_id=:parent_id WHERE id = :id",
       {
-        Id: req.body.Id,
-        Name: req.body.Name, // null
-        Description: req.body.Description,
-        Status: req.body.Status,
-        ParentId: req.body.ParentId,
+        id: req.body.id,
+        name: req.body.name, // null
+        description: req.body.description,
+        status: req.body.status,
+        parent_id: req.body.parent_id,
       }
     );
     res.json({
@@ -54,8 +54,8 @@ exports.update = async (req, res) => {
 
 exports.remove = async (req, res) => {
   try {
-    var [data] = await db.query("DELETE FROM category WHERE Id = :Id", {
-      Id: req.body.Id, // null
+    var [data] = await db.query("DELETE FROM category WHERE id = :id", {
+      id: req.body.id, // null
     });
     res.json({
       data: data,

@@ -24,12 +24,8 @@ INSERT INTO `category` (`id`, `name`, `description`, `status`, `create_at`) VALU
 (1, 'Computer', 'Desc Computer', 1, '2024-05-27 14:54:34'),
 (2, 'Phone', 'Desc Phone', 1, '2024-05-27 14:55:37'),
 (3, 'Monitor', 'Desc Monitor', 0, '2024-05-27 14:56:15'),
-(4, 'Tes101', 'Desc Tes101', 0, '2024-05-27 14:58:06'),
-(5, 'Tes102', 'Desc Tes102', 1, '2024-05-27 14:58:06'),
-(6, 'Test106', 'Desc Tes103', 0, '2024-05-27 14:58:06'),
-(8, 'Mobile APP', 'Des Mobile APP', 1, '2024-06-03 15:05:31'),
-(9, 'Test106', 'Des 107', 1, '2024-06-03 15:10:36'),
-(12, 'Test108', 'Des 108', 1, '2024-06-03 15:29:38');
+(4, 'Printer', 'Desc Printer', 0, '2024-05-27 14:58:06'),
+(5, 'LED', 'Desc LED', 1, '2024-05-27 14:58:06');
 
 CREATE TABLE user (
   id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
