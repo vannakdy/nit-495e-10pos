@@ -19,8 +19,8 @@ import {
   setAcccessToken,
   setProfile,
 } from "../../store/profile.store";
-import { countStore } from "../../page/home/HomePage";
-
+import { request } from "../../util/helper";
+import { configStore } from "../../store/configStore";
 const { Header, Content, Footer, Sider } = Layout;
 
 const items = [
@@ -155,7 +155,7 @@ const items = [
 ];
 
 const MainLayout = () => {
-  const { count, increase, descrease } = countStore();
+  const { setConfig } = configStore();
   const profile = getProfile();
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -164,10 +164,18 @@ const MainLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    getConfig();
     if (!profile) {
       navigate("/login");
     }
   }, []);
+
+  const getConfig = async () => {
+    const res = await request("config", "get");
+    if (res) {
+      setConfig(res);
+    }
+  };
 
   const onClickMenu = (item) => {
     navigate(item.key);

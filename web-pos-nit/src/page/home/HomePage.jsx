@@ -3,27 +3,16 @@ import { request } from "../../util/helper";
 import HomeGrid from "../../component/home/HomeGrid";
 import HomeSaleChart from "../../component/home/HomeSaleChart";
 import HomePurchaseChart from "../../component/home/HomePurchaseChart";
-import { create } from "zustand";
 import { Button } from "antd";
-
-export const countStore = create((set) => ({
-  count: 1,
-  profile: {},
-  list: [],
-  loading: true,
-  increase: () => set((state) => ({ count: state.count + 1 })),
-  descrease: () =>
-    set((state) => ({
-      count: state.count - 1,
-    })),
-}));
+import { configStore } from "../../store/configStore";
 
 function HomePage() {
-  const { count, increase, descrease } = countStore();
+  const { config } = configStore();
   const [home, setHome] = useState([]);
 
   useEffect(() => {
     getList();
+    console.log(config);
   }, []);
 
   const getList = async () => {
@@ -35,9 +24,10 @@ function HomePage() {
 
   return (
     <div>
-      <h1>{count}</h1>
-      <Button onClick={() => increase()}>+</Button>
-      <Button onClick={() => descrease()}>-</Button>
+      {config?.category &&
+        config.category?.map((item, index) => (
+          <div key={index}>{item.name}</div>
+        ))}
       <HomeGrid data={home} />
       <HomeSaleChart />
       <HomePurchaseChart />

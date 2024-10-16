@@ -1,0 +1,17 @@
+- updload one image 
+- updload mutiple image 
+- remove image | update image
+- image path 
+- generate_new_barcode
+- check_is_existing barcode 
+- insert mutiple records to tables 
+
+- form data (client)
+- file/image (client/nodejs)
+- multer library (nodejs)
+    - upload 
+    - remove 
+- store image 
+    - store name in DB (image(varchar(250)))
+    - file in server (apache) | 
+....

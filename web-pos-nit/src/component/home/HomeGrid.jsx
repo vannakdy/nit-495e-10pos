@@ -1,8 +1,6 @@
 import React from "react";
 import { Row, Col } from "antd";
-import { countStore } from "../../page/home/HomePage";
 function HomeGrid({ data = [] }) {
-  const { count } = countStore();
   return (
     <Row>
       {data?.map((item, index) => (
@@ -18,7 +16,6 @@ function HomeGrid({ data = [] }) {
           >
             <div style={{ fontSize: 26, fontWeight: "bold" }}>{item.title}</div>
             <div>{item.obj?.total}</div>
-            <div>{count}</div>
           </div>
         </Col>
       ))}

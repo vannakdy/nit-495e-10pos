@@ -13,8 +13,9 @@ import {
 import { request } from "../../util/helper";
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
 import MainPage from "../../component/layout/MainPage";
-
+import { configStore } from "../../store/configStore";
 function CategoryPage() {
+  const { config } = configStore();
   const [formRef] = Form.useForm();
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,8 +34,6 @@ function CategoryPage() {
   }, []);
 
   const getList = async () => {
-    const res_config = await request("config", "get");
-    console.log(res_config);
     setLoading(true);
     const res = await request("category", "get");
     setLoading(false);
