@@ -3,6 +3,20 @@
   justify-content: space-between;
   margin-bottom: 10px;
 }
+
+/* print */
+/* @media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  div {
+    width: 72mm;
+    font-family: "monospace";
+  }
+} */
+
 /* #root {
   max-width: 1280px;
   margin: 0 auto;

@@ -62,6 +62,7 @@ require("./src/route/auth.route")(app);
 require("./src/route/role.route")(app);
 require("./src/route/supplier.route")(app);
 require("./src/route/config.route")(app);
+require("./src/route/product.route")(app);
 
 const PORT = 8081;
 app.listen(PORT, () => {

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  Col,
   Form,
   Image,
   Input,
   InputNumber,
   message,
   Modal,
+  Row,
   Select,
   Space,
   Table,
@@ -17,6 +19,7 @@ import { request } from "../../util/helper";
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
 import MainPage from "../../component/layout/MainPage";
 import { configStore } from "../../store/configStore";
+import InvoicePrint from "../../component/printer/InvoicePrint";
 // aaaa
 // id	category_id	barcode	name	brand	description	qty	price	discount	status	image
 const getBase64 = (file) =>
@@ -28,6 +31,7 @@ const getBase64 = (file) =>
   });
 
 function ProductPage() {
+  const [printStatus, setPrintStatus] = useState(false);
   const { config } = configStore();
   const [form] = Form.useForm();
   const [state, setState] = useState({
@@ -47,11 +51,32 @@ function ProductPage() {
 
   useEffect(() => {
     // getList();
+    setTimeout(() => {
+      setPrintStatus(true);
+    }, 2000);
   }, []);
 
-  const onCloseModal = () => {};
-  const onFinish = (items) => {
+  const onCloseModal = () => {
+    setState((p) => ({
+      ...p,
+      visibleModal: false,
+    }));
+  };
+  const onFinish = async (items) => {
     console.log(items);
+    var params = new FormData();
+    params.append("name", items.name);
+    params.append("name1", "test");
+    // params.append("upload_image",items.image_default);
+    if (items.image_default) {
+      params.append(
+        "upload_image",
+        items.image_default.file.originFileObj,
+        items.image_default.file.name
+      );
+    }
+    const res = await request("product", "post", params);
+    console.log(res);
   };
   const onBtnNew = () => {
     setState((p) => ({
@@ -98,6 +123,7 @@ function ProductPage() {
             options={config.brand}
           />
           <Button type="primary">Filter</Button>
+          {printStatus && <InvoicePrint />}
         </Space>
         <Button type="primary" onClick={onBtnNew}>
           NEW
@@ -108,77 +134,88 @@ function ProductPage() {
         title={form.getFieldValue("id") ? "Edit Product" : "New Product"}
         footer={null}
         onCancel={onCloseModal}
+        width={700}
       >
         <Form layout="vertical" onFinish={onFinish} form={form}>
-          <Form.Item
-            name={"name"}
-            label="Product name"
-            rules={[
-              {
-                required: true,
-                message: "Please fill in product name",
-              },
-            ]}
-          >
-            <Input placeholder="Product name" />
-          </Form.Item>
-          <Form.Item
-            name={"category_id"}
-            label="Category"
-            rules={[
-              {
-                required: true,
-                message: "Please fill in product name",
-              },
-            ]}
-          >
-            <Select placeholder="Select category" options={config.category} />
-          </Form.Item>
-          <Form.Item
-            name={"brand"}
-            label="Brand"
-            rules={[
-              {
-                required: true,
-                message: "Please fill in product name",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select brand"
-              options={config.brand?.map((item) => ({
-                label: item.label + " (" + item.country + ")",
-                value: item.value,
-              }))}
-            />
-          </Form.Item>
-          <Form.Item name={"description"} label="description">
-            <Input.TextArea placeholder="description" />
-          </Form.Item>
-          <Form.Item name={"qty"} label="Quantity">
-            <InputNumber placeholder="Quantity" style={{ width: "100%" }} />
-          </Form.Item>
-          <Form.Item name={"price"} label="Price">
-            <InputNumber placeholder="Price" style={{ width: "100%" }} />
-          </Form.Item>
-          <Form.Item name={"discount"} label="Discount">
-            <InputNumber placeholder="Discount" style={{ width: "100%" }} />
-          </Form.Item>
-          <Form.Item name={"status"} label="status">
-            <Select
-              placeholder="Select status"
-              options={[
-                {
-                  label: "Active",
-                  value: 1,
-                },
-                {
-                  label: "InActive",
-                  value: 0,
-                },
-              ]}
-            />
-          </Form.Item>
+          <Row gutter={8}>
+            <Col span={12}>
+              <Form.Item
+                name={"name"}
+                label="Product name"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please fill in product name",
+                  },
+                ]}
+              >
+                <Input placeholder="Product name" />
+              </Form.Item>
+              <Form.Item
+                name={"brand"}
+                label="Brand"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please fill in product name",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Select brand"
+                  options={config.brand?.map((item) => ({
+                    label: item.label + " (" + item.country + ")",
+                    value: item.value,
+                  }))}
+                />
+              </Form.Item>
+              <Form.Item name={"qty"} label="Quantity">
+                <InputNumber placeholder="Quantity" style={{ width: "100%" }} />
+              </Form.Item>
+              <Form.Item name={"discount"} label="Discount">
+                <InputNumber placeholder="Discount" style={{ width: "100%" }} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name={"category_id"}
+                label="Category"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please fill in product name",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Select category"
+                  options={config.category}
+                />
+              </Form.Item>
+
+              <Form.Item name={"price"} label="Price">
+                <InputNumber placeholder="Price" style={{ width: "100%" }} />
+              </Form.Item>
+              <Form.Item name={"status"} label="status">
+                <Select
+                  placeholder="Select status"
+                  options={[
+                    {
+                      label: "Active",
+                      value: 1,
+                    },
+                    {
+                      label: "InActive",
+                      value: 0,
+                    },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name={"description"} label="description">
+                <Input.TextArea placeholder="description" />
+              </Form.Item>
+            </Col>
+          </Row>
 
           <Form.Item name={"image_default"} label="Image">
             <Upload
@@ -187,6 +224,7 @@ function ProductPage() {
                 // options.onProgress({ percent: 0 });
                 // options.onProgress({ percent: 100 });
               }}
+              // accept=""
               listType="picture-card"
               fileList={imageDefault}
               onPreview={handlePreview}
@@ -225,13 +263,14 @@ function ProductPage() {
               src={previewImage}
             />
           )}
-
-          <Space>
-            <Button onClick={onCloseModal}>Cancel</Button>
-            <Button type="primary" htmlType="submit">
-              {form.getFieldValue("id") ? "Update" : "Save"}
-            </Button>
-          </Space>
+          <div style={{ textAlign: "right" }}>
+            <Space>
+              <Button onClick={onCloseModal}>Cancel</Button>
+              <Button type="primary" htmlType="submit">
+                {form.getFieldValue("id") ? "Update" : "Save"}
+              </Button>
+            </Space>
+          </div>
         </Form>
       </Modal>
       {/* <Table

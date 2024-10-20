@@ -2,7 +2,7 @@ module.exports = {
   config: {
     app_name: "POS-NIT",
     app_versoin: "1.0",
-    image_path: "",
+    image_path: "C:/xampp/htdocs/fullstack/image_pos/",
     db: {
       HOST: "localhost",
       USER: "root",
