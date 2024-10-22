@@ -4,6 +4,7 @@ const {
   create,
   update,
   remove,
+  newBarcode,
 } = require("../controller/product.controller");
 const { uploadFile } = require("../util/helper");
 
@@ -17,4 +18,5 @@ module.exports = (app) => {
   app.get("/api/product", validate_token(), getList);
   app.put("/api/product", validate_token(), update);
   app.delete("/api/product", validate_token(), remove);
+  app.post("/api/new_barcode", validate_token(), newBarcode);
 };

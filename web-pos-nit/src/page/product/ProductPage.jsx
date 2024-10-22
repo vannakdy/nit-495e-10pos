@@ -19,9 +19,7 @@ import { request } from "../../util/helper";
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
 import MainPage from "../../component/layout/MainPage";
 import { configStore } from "../../store/configStore";
-import InvoicePrint from "../../component/printer/InvoicePrint";
-// aaaa
-// id	category_id	barcode	name	brand	description	qty	price	discount	status	image
+
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -31,7 +29,6 @@ const getBase64 = (file) =>
   });
 
 function ProductPage() {
-  const [printStatus, setPrintStatus] = useState(false);
   const { config } = configStore();
   const [form] = Form.useForm();
   const [state, setState] = useState({
@@ -51,9 +48,6 @@ function ProductPage() {
 
   useEffect(() => {
     // getList();
-    setTimeout(() => {
-      setPrintStatus(true);
-    }, 2000);
   }, []);
 
   const onCloseModal = () => {
@@ -61,13 +55,21 @@ function ProductPage() {
       ...p,
       visibleModal: false,
     }));
+    form.resetFields();
   };
   const onFinish = async (items) => {
     console.log(items);
     var params = new FormData();
+    // id	category_id	barcode	name	brand	description	qty	price	discount	status	image
     params.append("name", items.name);
-    params.append("name1", "test");
-    // params.append("upload_image",items.image_default);
+    params.append("category_id", items.category_id);
+    params.append("barcode", items.barcode); //
+    params.append("brand", items.brand);
+    params.append("description", items.description);
+    params.append("qty", items.qty);
+    params.append("price", items.price);
+    params.append("discount", items.discount);
+    params.append("status", items.status);
     if (items.image_default) {
       params.append(
         "upload_image",
@@ -76,13 +78,22 @@ function ProductPage() {
       );
     }
     const res = await request("product", "post", params);
-    console.log(res);
+    if (res && !res.error) {
+      message.success(res.message);
+      onCloseModal();
+    } else {
+      res.error?.barcode && message.error(res.error?.barcode);
+    }
   };
-  const onBtnNew = () => {
-    setState((p) => ({
-      ...p,
-      visibleModal: true,
-    }));
+  const onBtnNew = async () => {
+    const res = await request("new_barcode", "post");
+    if (res && !res.error) {
+      form.setFieldValue("barcode", res.barcode);
+      setState((p) => ({
+        ...p,
+        visibleModal: true,
+      }));
+    }
   };
 
   const handlePreview = async (file) => {
@@ -123,7 +134,6 @@ function ProductPage() {
             options={config.brand}
           />
           <Button type="primary">Filter</Button>
-          {printStatus && <InvoicePrint />}
         </Space>
         <Button type="primary" onClick={onBtnNew}>
           NEW
@@ -167,6 +177,13 @@ function ProductPage() {
                     label: item.label + " (" + item.country + ")",
                     value: item.value,
                   }))}
+                />
+              </Form.Item>
+              <Form.Item name={"barcode"} label="Barcode">
+                <Input
+                  disabled
+                  placeholder="Barcode"
+                  style={{ width: "100%" }}
                 />
               </Form.Item>
               <Form.Item name={"qty"} label="Quantity">
