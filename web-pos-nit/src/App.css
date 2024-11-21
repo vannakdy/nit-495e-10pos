@@ -4,6 +4,33 @@
   margin-bottom: 10px;
 }
 
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* //max-width: 120px; Adjust based on your needs */
+}
+
+.row_between_invoice {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 5px;
+  border-bottom: 1px solid gray;
+}
+.pos_tbl_invoice {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1pt solid rgb(229, 229, 229);
+}
+.pos_tbl_invoice tr {
+  border-bottom: 1pt solid rgb(229, 229, 229);
+}
+.pos_tbl_invoice th,
+td {
+  text-align: left;
+  font-size: 9px;
+  padding: 2px;
+}
 /* print */
 /* @media print {
   body {

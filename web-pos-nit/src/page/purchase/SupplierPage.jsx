@@ -21,7 +21,10 @@ function SupplierPage() {
       ...p,
       loading: true,
     }));
-    const res = await request("supplier?txtSearch=" + state.txtSearch, "get");
+    var param = {
+      txtSearch: state.txtSearch,
+    };
+    const res = await request("supplier", "get", param);
     if (res && !res.error) {
       setState((p) => ({
         ...p,
@@ -101,10 +104,6 @@ function SupplierPage() {
 
   return (
     <MainPage loading={state.loading}>
-      {/* <h1>{dayjs().format("DD/MM/YYYY")}</h1>
-      <h1>{dayjs().format("DD/MM/YY")}</h1>
-      <h1>{dayjs().format("DD-MMM-YYYY h:mm a")}</h1>
-      <h1>{dayjs().add(1, "y").format("DD-MMM-YYYY h:mm a")}</h1> */}
       <div className="pageHeader">
         <Space>
           <div>Supplier</div>

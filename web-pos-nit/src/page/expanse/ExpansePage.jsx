@@ -10,10 +10,10 @@ import {
   Table,
   Tag,
 } from "antd";
-import { formatDateClient, request } from "../../util/helper";
+import { request } from "../../util/helper";
 import { MdDelete, MdEdit } from "react-icons/md";
 import MainPage from "../../component/layout/MainPage";
-function EmployeePage() {
+function ExpansePage() {
   const [formRef] = Form.useForm();
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ function EmployeePage() {
     var param = {
       txtSearch: state.txtSearch,
     };
-    const res = await request("employee", "get", param);
+    const res = await request("expanse", "get", param);
     setLoading(false);
     if (res) {
       setList(res.list);
@@ -62,7 +62,7 @@ function EmployeePage() {
       descriptoin: "Are you sure to remove?",
       okText: "យល់ព្រម",
       onOk: async () => {
-        const res = await request("employee", "delete", {
+        const res = await request("customer", "delete", {
           id: data.id,
         });
         if (res && !res.error) {
@@ -103,7 +103,7 @@ function EmployeePage() {
       // case update
       method = "put";
     }
-    const res = await request("employee", method, data);
+    const res = await request("customer", method, data);
     if (res && !res.error) {
       message.success(res.message);
       getList();
@@ -114,7 +114,7 @@ function EmployeePage() {
     <MainPage loading={loading}>
       <div className="pageHeader">
         <Space>
-          <div>Employee</div>
+          <div>Customer</div>
           <Input.Search
             onChange={(value) =>
               setState((p) => ({ ...p, txtSearch: value.target.value }))
@@ -133,13 +133,13 @@ function EmployeePage() {
       </div>
       <Modal
         open={state.visibleModal}
-        title={formRef.getFieldValue("id") ? "Edit Employee" : "New Employee"}
+        title={formRef.getFieldValue("id") ? "Edit Customer" : "New Customer"}
         footer={null}
         onCancel={onCloseModal}
       >
         <Form layout="vertical" onFinish={onFinish} form={formRef}>
-          <Form.Item name={"name"} label="Employee name">
-            <Input placeholder="Input Employee name" />
+          <Form.Item name={"name"} label="Customer name">
+            <Input placeholder="Input Customer name" />
           </Form.Item>
           <Form.Item name={"description"} label="description">
             <Input.TextArea placeholder="description" />
@@ -177,46 +177,34 @@ function EmployeePage() {
             render: (item, data, index) => index + 1,
           },
           {
-            key: "firstname",
-            title: "firstname",
-            dataIndex: "firstname",
+            key: "expense_type_id",
+            title: "expense_type_id",
+            dataIndex: "expense_type_id",
           },
           {
-            key: "lastname",
-            title: "lastname",
-            dataIndex: "lastname",
+            key: "name",
+            title: "name",
+            dataIndex: "name",
           },
           {
-            key: "gender",
-            title: "gender",
-            dataIndex: "gender",
-            render: (value) => (value ? "Male" : "Female"),
+            key: "ref_no",
+            title: "ref_no",
+            dataIndex: "ref_no",
           },
           {
-            key: "tel",
-            title: "tel",
-            dataIndex: "tel",
+            key: "amount",
+            title: "amount",
+            dataIndex: "amount",
           },
           {
-            key: "email",
-            title: "email",
-            dataIndex: "email",
+            key: "remark",
+            title: "remark",
+            dataIndex: "remark",
           },
           {
-            key: "address",
-            title: "address",
-            dataIndex: "address",
-          },
-          {
-            key: "position",
-            title: "position",
-            dataIndex: "position",
-          },
-          {
-            key: "create_at",
-            title: "create_at",
-            dataIndex: "create_at",
-            render: (value) => formatDateClient(value),
+            key: "expense_date",
+            title: "expense_date",
+            dataIndex: "expense_date",
           },
           {
             key: "Action",
@@ -244,4 +232,4 @@ function EmployeePage() {
   );
 }
 
-export default EmployeePage;
+export default ExpansePage;

@@ -19,6 +19,9 @@ import UserPage from "./page/user/UserPage";
 import RolePage from "./page/role/RolePage";
 import SupplierPage from "./page/purchase/SupplierPage";
 import ProductPage from "./page/product/ProductPage";
+import ExpanseTypePage from "./page/expanse/ExpanseTypePage";
+import ExpansePage from "./page/expanse/ExpansePage";
+import PosPage from "./page/pos/PosPage";
 
 function App() {
   return (
@@ -28,11 +31,15 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/employee" element={<EmployeePage />} />
           <Route path="/customer" element={<CustomerPage />} />
+          <Route path="/pos" element={<PosPage />} />
           <Route path="/category" element={<CategoryPage />} />
           <Route path="/product" element={<ProductPage />} />
           <Route path="/user" element={<UserPage />} />
           <Route path="/role" element={<RolePage />} />
           <Route path="/supplier" element={<SupplierPage />} />
+
+          <Route path="/expanse_type" element={<ExpanseTypePage />} />
+          <Route path="/expanse" element={<ExpansePage />} />
 
           <Route path="*" element={<h1>404-Route Not Found!</h1>} />
         </Route>

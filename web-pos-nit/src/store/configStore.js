@@ -7,6 +7,7 @@ export const configStore = create((set) => ({
     supplier: null,
     purchase_status: null,
     brand: null,
+    customer: null,
   },
   setConfig: (params) =>
     set((state) => ({

@@ -3,10 +3,10 @@ const { db, isArray, isEmpty, logError } = require("../util/helper");
 exports.getList = async (req, res) => {
   try {
     var txtSearch = req.query.txtSearch;
-    var sql = "SELECT * FROM supplier  ";
+    var sql = "SELECT * FROM employee ";
     if (!isEmpty(txtSearch)) {
       sql +=
-        " WHERE name LIKE :txtSearch OR code LIKE :txtSearch OR tel LIKE :txtSearch OR email LIKE :txtSearch";
+        " WHERE firstname LIKE :txtSearch OR lastname LIKE :txtSearch OR tel LIKE :txtSearch OR email LIKE :txtSearch";
     }
     const [list] = await db.query(sql, {
       txtSearch: "%" + txtSearch + "%",
@@ -15,7 +15,7 @@ exports.getList = async (req, res) => {
       list: list,
     });
   } catch (error) {
-    logError("supplier.getList", error, res);
+    logError("employee.getList", error, res);
   }
 };
 // id,name,code,tel,email,address,website,note,create_by,create_at
@@ -23,7 +23,7 @@ exports.getList = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     var sql =
-      "INSERT INTO supplier (name,code,tel,email,address,website,note,create_by) VALUES (:name,:code,:tel,:email,:address,:website,:note,:create_by) ";
+      "INSERT INTO employee (name,code,tel,email,address,website,note,create_by) VALUES (:name,:code,:tel,:email,:address,:website,:note,:create_by) ";
     var [data] = await db.query(sql, {
       ...req.body,
       create_by: req.auth?.name,
@@ -33,14 +33,14 @@ exports.create = async (req, res) => {
       message: "Insert success!",
     });
   } catch (error) {
-    logError("supplier.create", error, res);
+    logError("employee.create", error, res);
   }
 };
 
 exports.update = async (req, res) => {
   try {
     var sql =
-      "UPDATE  supplier set name=:name, code=:code, tel=:tel, email=:email, address=:address, website=:website, note=:note WHERE id=:id ";
+      "UPDATE  employee set name=:name, code=:code, tel=:tel, email=:email, address=:address, website=:website, note=:note WHERE id=:id ";
     var [data] = await db.query(sql, {
       ...req.body,
     });
@@ -49,13 +49,13 @@ exports.update = async (req, res) => {
       message: "Update success!",
     });
   } catch (error) {
-    logError("supplier.update", error, res);
+    logError("employee.update", error, res);
   }
 };
 
 exports.remove = async (req, res) => {
   try {
-    var [data] = await db.query("DELETE FROM supplier WHERE id = :id", {
+    var [data] = await db.query("DELETE FROM employee WHERE id = :id", {
       ...req.body,
     });
     res.json({
@@ -63,6 +63,6 @@ exports.remove = async (req, res) => {
       message: "Data delete success!",
     });
   } catch (error) {
-    logError("supplier.remove", error, res);
+    logError("employee.remove", error, res);
   }
 };

@@ -155,4 +155,22 @@ CREATE TABLE expense (
 );
 
 
+--- 
+CREATE TABLE employee (
+  id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  firstname VARCHAR(255) NOT NULL,
+  lastname VARCHAR(255) NOT NULL,
+  card_id VARCHAR(120) NOT NULL UNIQUE,
+  dob datetime NOT NULL,
+  gender tinyint(1) NOT NULL,
+  tel VARCHAR(18) NOT NULL,
+  email VARCHAR(120) DEFAULT NULL,
+  base_salary DECIMAL(6,2) DEFAULT 0,
+  position VARCHAR(120) NOT NULL,
+  address TEXT DEFAULT NULL,
+  create_by varchar(120) DEFAULT NULL,
+  create_at timestamp NOT NULL DEFAULT current_timestamp()
+);
+
+
 

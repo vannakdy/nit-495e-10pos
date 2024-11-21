@@ -1,12 +1,23 @@
 const { db, isArray, isEmpty, logError } = require("../util/helper");
 
+exports.getListExpanseType = async (req, res) => {
+  try {
+    var sql = "SELECT * FROM expense_type ";
+    const [list] = await db.query(sql);
+    res.json({
+      list: list,
+    });
+  } catch (error) {
+    logError("customer.getListExpanseType", error, res);
+  }
+};
+
 exports.getList = async (req, res) => {
   try {
     var txtSearch = req.query.txtSearch;
-    var sql = "SELECT * FROM supplier  ";
+    var sql = "SELECT * FROM expense ";
     if (!isEmpty(txtSearch)) {
-      sql +=
-        " WHERE name LIKE :txtSearch OR code LIKE :txtSearch OR tel LIKE :txtSearch OR email LIKE :txtSearch";
+      sql += " WHERE ref_no LIKE :txtSearch";
     }
     const [list] = await db.query(sql, {
       txtSearch: "%" + txtSearch + "%",
@@ -15,7 +26,7 @@ exports.getList = async (req, res) => {
       list: list,
     });
   } catch (error) {
-    logError("supplier.getList", error, res);
+    logError("customer.getList", error, res);
   }
 };
 // id,name,code,tel,email,address,website,note,create_by,create_at
@@ -23,7 +34,7 @@ exports.getList = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     var sql =
-      "INSERT INTO supplier (name,code,tel,email,address,website,note,create_by) VALUES (:name,:code,:tel,:email,:address,:website,:note,:create_by) ";
+      "INSERT INTO customer (name,code,tel,email,address,website,note,create_by) VALUES (:name,:code,:tel,:email,:address,:website,:note,:create_by) ";
     var [data] = await db.query(sql, {
       ...req.body,
       create_by: req.auth?.name,
@@ -33,14 +44,14 @@ exports.create = async (req, res) => {
       message: "Insert success!",
     });
   } catch (error) {
-    logError("supplier.create", error, res);
+    logError("customer.create", error, res);
   }
 };
 
 exports.update = async (req, res) => {
   try {
     var sql =
-      "UPDATE  supplier set name=:name, code=:code, tel=:tel, email=:email, address=:address, website=:website, note=:note WHERE id=:id ";
+      "UPDATE  customer set name=:name, code=:code, tel=:tel, email=:email, address=:address, website=:website, note=:note WHERE id=:id ";
     var [data] = await db.query(sql, {
       ...req.body,
     });
@@ -49,13 +60,13 @@ exports.update = async (req, res) => {
       message: "Update success!",
     });
   } catch (error) {
-    logError("supplier.update", error, res);
+    logError("customer.update", error, res);
   }
 };
 
 exports.remove = async (req, res) => {
   try {
-    var [data] = await db.query("DELETE FROM supplier WHERE id = :id", {
+    var [data] = await db.query("DELETE FROM customer WHERE id = :id", {
       ...req.body,
     });
     res.json({
@@ -63,6 +74,6 @@ exports.remove = async (req, res) => {
       message: "Data delete success!",
     });
   } catch (error) {
-    logError("supplier.remove", error, res);
+    logError("customer.remove", error, res);
   }
 };

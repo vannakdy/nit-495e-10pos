@@ -33,12 +33,8 @@ function ProductPage() {
   const [form] = Form.useForm();
   const [state, setState] = useState({
     list: [],
-    total: 0,
-    loading: false,
     visibleModal: false,
   });
-
-  const refPage = React.useRef(1);
 
   const [filter, setFilter] = useState({
     txt_search: "",
@@ -50,7 +46,6 @@ function ProductPage() {
   const [previewImage, setPreviewImage] = useState("");
   const [imageDefault, setImageDefault] = useState([]);
   const [imageOptional, setImageOptional] = useState([]);
-  const [imageOptional_Old, setImageOptional_Old] = useState([]);
 
   useEffect(() => {
     getList();
@@ -58,21 +53,16 @@ function ProductPage() {
 
   const getList = async () => {
     var param = {
-      ...filter,
-      page: refPage.current, // get value
-      // txt_search: filter.txt_search,
-      // category_id: filter.category_id,
-      // brand: filter.brand,
-      // page: filter.page,
+      // ...filter,
+      txt_search: filter.txt_search,
+      category_id: filter.category_id,
+      brand: filter.brand,
     };
-    setState((pre) => ({ ...pre, loading: true }));
     const res = await request("product", "get", param);
     if (res && !res.error) {
       setState((pre) => ({
         ...pre,
         list: res.list,
-        total: refPage.current == 1 ? res.total : pre.total,
-        loading: false,
       }));
     }
   };
@@ -83,30 +73,9 @@ function ProductPage() {
       visibleModal: false,
     }));
     setImageDefault([]);
-    setImageOptional([]);
     form.resetFields();
   };
   const onFinish = async (items) => {
-    // aaaa
-    // console.log("imageProductOptional", imageOptional_Old);
-    // console.log(items);
-    var imageOptional = [];
-    if (imageOptional_Old.length > 0 && items.image_optional) {
-      imageOptional_Old.map((item1, index1) => {
-        var isFound = false;
-        if (items.image_optional) {
-          items.image_optional.fileList?.map((item2, index2) => {
-            if (item1.name === item2.name) {
-              isFound = true;
-            }
-          });
-        }
-        if (isFound == false) {
-          imageOptional.push(item1.name);
-        }
-      });
-    }
-
     var params = new FormData();
     // id	category_id	barcode	name	brand	description	qty	price	discount	status	image
     params.append("name", items.name);
@@ -121,14 +90,6 @@ function ProductPage() {
 
     // when update this two more key
     params.append("image", form.getFieldValue("image")); // just name image
-
-    if (imageOptional && imageOptional.length > 0) {
-      // image for remove
-      imageOptional.map((item) => {
-        params.append("image_optional", item); // just name image
-      });
-    }
-
     params.append("id", form.getFieldValue("id"));
 
     if (items.image_default) {
@@ -142,16 +103,6 @@ function ProductPage() {
         );
       }
     }
-
-    if (items.image_optional) {
-      items.image_optional.fileList?.map((item, index) => {
-        // multiple image
-        if (item?.originFileObj) {
-          params.append("upload_image_optional", item.originFileObj, item.name);
-        }
-      });
-    }
-
     var method = "post";
     if (form.getFieldValue("id")) {
       method = "put";
@@ -193,7 +144,7 @@ function ProductPage() {
     getList();
   };
 
-  const onClickEdit = async (item, index) => {
+  const onClickEdit = (item, index) => {
     form.setFieldsValue({
       ...item,
     });
@@ -208,24 +159,6 @@ function ProductPage() {
         },
       ];
       setImageDefault(imageProduct);
-    }
-    //
-    // product_image
-    const res_image = await request("product_image/" + item.id, "get");
-    if (res_image && !res_image.error) {
-      if (res_image.list) {
-        var imageProductOptional = [];
-        res_image.list.map((item, index) => {
-          imageProductOptional.push({
-            uid: index,
-            name: item.image,
-            status: "done",
-            url: "http://localhost:81/fullstack/image_pos/" + item.image,
-          });
-        });
-        setImageOptional(imageProductOptional);
-        setImageOptional_Old(imageProductOptional);
-      }
     }
   };
   const onClickDelete = (item, index) => {
@@ -243,10 +176,10 @@ function ProductPage() {
   };
 
   return (
-    <MainPage loading={state.loading}>
+    <MainPage loading={false}>
       <div className="pageHeader">
         <Space>
-          <div>Product {state.total}</div>
+          <div>Product</div>
           <Input.Search
             onChange={(event) =>
               setFilter((p) => ({ ...p, txt_search: event.target.value }))
@@ -400,7 +333,7 @@ function ProductPage() {
               }}
               listType="picture-card"
               multiple={true}
-              maxCount={4}
+              maxCount={5}
               fileList={imageOptional}
               onPreview={handlePreview}
               onChange={handleChangeImageOptional}
@@ -434,25 +367,11 @@ function ProductPage() {
       </Modal>
       <Table
         dataSource={state.list}
-        pagination={{
-          pageSize: 2,
-          total: state.total,
-          onChange: (page) => {
-            // setFilter((pre) => ({ ...pre, page: page }));
-            refPage.current = page;
-            getList();
-          },
-        }}
         columns={[
           {
             key: "name",
             title: "name",
             dataIndex: "name",
-            render: (text) => (
-              <div className="truncate-text" title={text}>
-                {text}
-              </div>
-            ),
           },
           {
             key: "barcode",
@@ -463,13 +382,7 @@ function ProductPage() {
             key: "description",
             title: "description",
             dataIndex: "description",
-            render: (text) => (
-              <div className="truncate-text" title={text}>
-                {text}
-              </div>
-            ),
           },
-
           {
             key: "category_name",
             title: "category_name",
@@ -494,6 +407,11 @@ function ProductPage() {
             key: "discount",
             title: "discount",
             dataIndex: "discount",
+          },
+          {
+            key: "image",
+            title: "image",
+            dataIndex: "image",
           },
           {
             key: "status",

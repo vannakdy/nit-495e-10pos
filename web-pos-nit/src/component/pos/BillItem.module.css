@@ -1,0 +1,32 @@
+.container {
+  background-color: #eeeeee;
+  margin-top: 15px;
+  border: 1px solid rgb(227, 225, 225);
+  padding: 10px;
+  border-radius: 10px;
+}
+.p_name {
+  font-weight: bold;
+}
+.p_des {
+  margin-top: 5px;
+}
+
+.p_price {
+  text-decoration: line-through;
+  margin-right: 5px;
+}
+.p_dis {
+  color: red;
+  font-weight: bold;
+  margin-right: 5px;
+}
+.p_final_price {
+  font-weight: bold;
+  color: green;
+  margin-right: 5px;
+}
+.p_price_container {
+  margin-top: 5px;
+  display: flex;
+}

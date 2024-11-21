@@ -15,8 +15,30 @@ exports.isArray = (data) => {
   return true;
 };
 
-exports.isEmpty = (data) => {
-  return true;
+// exports.notEmpty = (value) => {
+//   if (
+//     value == "" ||
+//     value == null ||
+//     value == undefined ||
+//     value == "null" ||
+//     value == "undefined"
+//   ) {
+//     return false;
+//   }
+//   return true;
+// };
+
+exports.isEmpty = (value) => {
+  if (
+    value == "" ||
+    value == null ||
+    value == undefined ||
+    value == "null" ||
+    value == "undefined"
+  ) {
+    return true;
+  }
+  return false;
 };
 
 exports.isEmail = (data) => {
@@ -60,12 +82,13 @@ exports.uploadFile = multer({
 });
 
 exports.removeFile = async (fileName) => {
-  var filePath = config.image_path;
+  var filePath = config.image_path + fileName;
   try {
-    await fs.unlink(filePath + fileName);
+    await fs.unlink(filePath);
     return "File deleted successfully";
   } catch (err) {
-    console.error("Error deleting file:", err);
-    throw err;
+    // console.error("Error deleting file:", err);
+    return true;
+    // throw err;
   }
 };
